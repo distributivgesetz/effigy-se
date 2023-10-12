@@ -1,3 +1,28 @@
+/datum/effigy_message
+	/// The endpoint we're using
+	var/datum/effigy_message_type/endpoint
+	/// API message content
+	var/list/message_content
+	/// HTTP message request
+	var/datum/http_request/message_request
+
+/datum/effigy_message/New(msg_type, box, int_id, ticket_id, link_id, title, message)
+	endpoint = msg_type
+	message_content = list(
+		"box" = box,
+		"int_id" = int_id,
+		"link_id" = link_id,
+		"ticket_id" = ticket_id,
+		"title" = title,
+		"message" = message,
+	)
+
+// Cleans up the request object when it is destroyed.
+/datum/effigy_message/Destroy(force, ...)
+	endpoint = null
+	QDEL_NULL(message_request)
+	return ..()
+
 /// Effigy API Endpoint Config
 /datum/effigy_message_type
 	/// Message type of request
@@ -6,17 +31,6 @@
 	var/url
 	/// The HTTP method of this endpoint
 	var/method
-
-/datum/effigy_message_type/new_ticket
-	endpoint = EFFIGY_ENDPOINT_NEW_TICKET
-	method = RUSTG_HTTP_METHOD_POST
-
-/datum/effigy_message_type/ticket_interaction
-	endpoint = EFFIGY_ENDPOINT_TICKET_INTERACTION
-	method = RUSTG_HTTP_METHOD_POST
-
-/datum/effigy_message_type/get
-	method = RUSTG_HTTP_METHOD_GET
 
 /// Generates the request header
 /datum/effigy_message_type/proc/construct_api_message_header(efapi_auth, efapi_key)
@@ -64,3 +78,18 @@
 /datum/effigy_account_link/New(ckey, effigy_id)
 	src.ckey = ckey
 	src.effigy_id = effigy_id
+
+/datum/effigy_message_type/new_ticket
+	endpoint = EFFIGY_ENDPOINT_NEW_TICKET
+	method = RUSTG_HTTP_METHOD_POST
+
+/datum/effigy_message_type/ticket_interaction
+	endpoint = EFFIGY_ENDPOINT_TICKET_INTERACTION
+	method = RUSTG_HTTP_METHOD_POST
+
+/datum/effigy_message_type/get
+	method = RUSTG_HTTP_METHOD_GET
+
+/datum/effigy_message_type/poll_member_list
+	method = RUSTG_HTTP_METHOD_GET
+	endpoint = EFFIGY_ENDPOINT_GET_MEMBERS

@@ -3,9 +3,11 @@
 
 #define EFFIGY_MESSAGE_NEW_TICKET /datum/effigy_message_type/new_ticket
 #define EFFIGY_MESSAGE_TICKET_INTERACTION /datum/effigy_message_type/ticket_interaction
+#define EFFIGY_MESSAGE_POLL_MEMBER_LIST /datum/effigy_message_type/poll_member_list
 
 #define EFFIGY_ENDPOINT_NEW_TICKET "/forums/topics"
 #define EFFIGY_ENDPOINT_TICKET_INTERACTION "/forums/posts"
+#define EFFIGY_ENDPOINT_GET_MEMBERS "/core/members"
 
 // Ticket statuses
 #define EFFIGY_NOT_ASSOC "notregistered"
